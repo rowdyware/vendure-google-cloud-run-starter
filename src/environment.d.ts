@@ -26,7 +26,8 @@ declare global {
             CLOUD_TASKS_SECRET: string;
             SMTP_HOST: string;
             SMTP_USER: string;
-            SMTP_PASSWORD: string
+            SMTP_PASSWORD: string;
+            KEEP_ALIVE_MINS: number
         }
     }
 }

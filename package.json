@@ -9,7 +9,7 @@
     "serve:prod": "export ENV_FILE=.env && yarn serve",
     "serve:test": "export ENV_FILE=.env.test && yarn serve",
     "build": "rimraf dist && yarn tsc",
-    "build:admin": "rimraf src/__admin-ui && yarn ts-node src/compile-admin-ui.ts",
+    "build:admin": "rimraf __admin-ui && yarn ts-node src/compile-admin-ui.ts",
     "lint": "yarn eslint",
     "lint:check": "yarn lint .",
     "lint:fix": "yarn lint --fix .",

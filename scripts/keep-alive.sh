@@ -13,6 +13,6 @@ source ./parse-env.sh
 echo "Creating 'keep alive' Cloud Scheduler Job"
 gcloud scheduler jobs create http $SERVICE_NAME-prod-keep-alive \
     --location=$GCLOUD_REGION \
-    --schedule="*/10 * * * *" \
+    --schedule="*/$KEEP_ALIVE_MINS * * * *" \
     --uri="$WORKER_HOST/admin" \
     --project=$GCLOUD_PROJECT

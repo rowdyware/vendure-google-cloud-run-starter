@@ -12,8 +12,10 @@
 ## Prerequisites
 
 This guide assumes you have a GitHub repo clone/fork of the upstream repo and the following installed locally on your machine:
-1. `gcloud` - [install](https://cloud.google.com/sdk/docs/install)
-2. `gh` - [install](https://github.com/cli/cli#installation)
+1. bash 
+2. yarn
+3. `gcloud` - [install](https://cloud.google.com/sdk/docs/install)
+4. `gh` - [install](https://github.com/cli/cli#installation)
 
 ## Create a Google Cloud project
 
@@ -24,10 +26,8 @@ Copy the .env.example file and fill in your values.
 
 This project uses `your-project` as example name, so make sure to ctrl+f all files for occurences of `your-project` when you're done with this guide.
 
-Go through the following files and replace any variables specific to your project: 
+Go through the following files and replace `your-project` with env vars specific to your project: 
 * All files in `.github/workflows`
-* `deploy.sh`
-* `build-docker.sh`
 
 ## Deployments
 
@@ -35,10 +35,11 @@ Go through the following files and replace any variables specific to your projec
 cd scripts && ./automation.sh
 ```
 
-Still requires input:
-- GitHub auth - 2 choices - GitHub.com, No
+Requires input:
+- script selection
 - After first DB_HOST spinup for IP
 - Deleting SQL root user
+- After first deploy for WORK_HOST URL
 
 ## Google Cloud Console
 Some useful and important links to view your application health:

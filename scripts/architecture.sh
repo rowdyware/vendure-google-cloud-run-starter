@@ -50,7 +50,7 @@ gcloud iam service-accounts keys create key.json \
 
 # GITHUB ACTIONS
 echo "Authenticating GitHub account"
-gh auth login
+gh auth login --hostname github.com --with-token <<< $GITHUB_PAT
 
 echo "Adding Repository secret for Service Account"
 gh secret set SA_KEY < key.json
