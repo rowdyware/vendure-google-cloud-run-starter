@@ -24,6 +24,13 @@ printf "$GCLOUD_PROJECT" | gcloud secrets create ${SERVICE_NAME}-gcloud-project 
     --replication-policy=user-managed \
     --project=$GCLOUD_PROJECT
 
+echo "Creating secret: ${SERVICE_NAME}-gcloud-region"
+printf "$GCLOUD_REGION" | gcloud secrets create ${SERVICE_NAME}-gcloud-region \
+    --data-file=- \
+    --locations=$GCLOUD_REGION \
+    --replication-policy=user-managed \
+    --project=$GCLOUD_PROJECT
+
 echo "Creating secret: ${SERVICE_NAME}-bucket"
 printf "$BUCKET" | gcloud secrets create ${SERVICE_NAME}-bucket \
     --data-file=- \

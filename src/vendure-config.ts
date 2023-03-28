@@ -43,7 +43,7 @@ export const config: VendureConfig = {
     adminApiPlayground: !!runningLocal,
     adminApiDebug: false, // turn this off for production
     shopApiPath: 'shop-api',
-    shopApiPlayground: true, // turn this off for production
+    shopApiPlayground: false, // turn this off for production
     shopApiDebug: false, // turn this off for production
     shopListQueryLimit: 500,
     middleware: [
@@ -73,9 +73,9 @@ export const config: VendureConfig = {
     host: process.env.DB_HOST,
     database: process.env.DB_NAME,
     migrations: [path.join(__dirname, '../migrations/*.ts')],
-    // socketPath: runningLocal
-    //   ? undefined
-    //   : `/cloudsql/${process.env.SOCKET_CONNECTION_NAME}`,
+    socketPath: runningLocal
+      ? undefined
+      : `/cloudsql/${process.env.SOCKET_CONNECTION_NAME}`,
   },
   taxOptions: {
   },
@@ -88,7 +88,7 @@ export const config: VendureConfig = {
     CloudTasksPlugin.init({
       taskHandlerHost: process.env.WORKER_HOST,
       projectId: process.env.GCLOUD_PROJECT,
-      location: 'europe-west1',
+      location: process.env.GCLOUD_REGION,
       authSecret: process.env.CLOUD_TASKS_SECRET,
       queueSuffix: process.env.APP_ENV,
     }),

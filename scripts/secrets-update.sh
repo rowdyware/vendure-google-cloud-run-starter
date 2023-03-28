@@ -20,6 +20,11 @@ printf "$GCLOUD_PROJECT" | gcloud secrets versions add ${SERVICE_NAME}-gcloud-pr
     --data-file=- \
     --project=$GCLOUD_PROJECT
 
+echo "Updating secret: ${SERVICE_NAME}-gcloud-region"
+printf "$GCLOUD_REGION" | gcloud secrets versions add ${SERVICE_NAME}-gcloud-region \
+    --data-file=- \
+    --project=$GCLOUD_PROJECT
+
 echo "Updating secret: ${SERVICE_NAME}-bucket"
 printf "$BUCKET" | gcloud secrets versions add ${SERVICE_NAME}-bucket \
     --data-file=- \

@@ -23,6 +23,7 @@ gcloud run deploy $SERVICE_NAME \
     --memory=$MEMORY \
     --set-secrets APP_ENV=$SERVICE_NAME-app-env:latest \
     --set-secrets GCLOUD_PROJECT=$SERVICE_NAME-gcloud-project:latest \
+    --set-secrets GCLOUD_REGION=$SERVICE_NAME-gcloud-region:latest \
     --set-secrets BUCKET=$SERVICE_NAME-bucket:latest \
     --set-secrets SUPERADMIN_USERNAME=$SERVICE_NAME-superadmin-username:latest \
     --set-secrets SUPERADMIN_PASSWORD=$SERVICE_NAME-superadmin-password:latest \

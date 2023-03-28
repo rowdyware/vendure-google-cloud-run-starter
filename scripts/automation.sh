@@ -17,7 +17,7 @@ else
 fi
 
 PS3='Choose an option by entering a #: '
-choices=("Test Locally - Setup" "Test Locally - Update" "Deployment - Setup" "Deployment - Update" "Deployment - Update Secrets" "Deployment - Update with Admin UI Recompile" "Exit")
+choices=("Test Locally - Setup" "Test Locally - Update" "Deployment - Setup" "Deployment - Update" "Deployment - Update Secrets" "Deployment - Update with Admin UI Recompile" "Cleanup" "Nuke Everything" "Exit")
 select automation in "${choices[@]}"; do
     case $automation in
         "Test Locally - Setup")
@@ -43,11 +43,11 @@ select automation in "${choices[@]}"; do
             echo "UPDATING GCLOUD COMPONENTS"
             gcloud components update
 
-            echo "RUNNING ARCHITECTURE SETUP SCRIPT"
-            source ./architecture.sh
-
             echo "RUNNING CREATE SECRETS SCRIPT"
             source ./secrets-create.sh
+
+            echo "RUNNING ARCHITECTURE SETUP SCRIPT"
+            source ./architecture.sh
 
             echo "RUNNING DATABASE SETUP SCRIPT"
             source ./database.sh
@@ -103,6 +103,18 @@ select automation in "${choices[@]}"; do
 
             echo "RUNNING DEPLOYMENT TO CLOUD RUN SCRIPT"
             source ./deploy.sh
+
+            break
+            ;;
+        "Cleanup")
+            echo "RUNNING CLEANUP SCRIPT"
+            source ./cleanup.sh
+
+            break
+            ;;
+        "Nuke Everything")
+            echo "RUNNING NUCLEAR REMOVAL SCRIPT"
+            source ./nuke.sh
 
             break
             ;;
