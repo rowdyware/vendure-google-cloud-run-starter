@@ -6,20 +6,27 @@ declare global {
     namespace NodeJS {
         interface ProcessEnv {
             APP_ENV: string;
+            APP_PORT: string;
+            LOCAL_IP: string;
+            GCLOUD_PROJECT: string;
+            GCLOUD_REGION: string;
+            SERVICE_NAME: string;
+            SERVICE_ACCOUNT: string;
+            BUCKET: string;
             SUPERADMIN_USERNAME: string;
             SUPERADMIN_PASSWORD: string;
             DB_HOST: string;
-            DB_NAME: string;
-            DB_USERNAME: string;
-            DB_PASSWORD: string;
-            WORKER_HOST: string;
-            CLOUD_TASKS_SECRET: string
-            GCLOUD_PROJECT: string;
-            SMTP_PASSWORD: string;
-            SMTP_USER: string
-            SMTP_HOST: string
-            BUCKET: string
             SOCKET_CONNECTION_NAME: string;
+            DB_ROOT_PASSWORD: string;
+            DB_PASSWORD: string;
+            DB_USER: string;
+            DB_NAME: string;
+            DB_TIER: string;
+            WORKER_HOST: string;
+            CLOUD_TASKS_SECRET: string;
+            SMTP_HOST: string;
+            SMTP_USER: string;
+            SMTP_PASSWORD: string
         }
     }
 }

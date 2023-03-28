@@ -11,68 +11,25 @@ This project uses `your-project` as example name, so make sure to ctrl+f all fil
 
 ## Prerequisites
 
-This guide assumes you have `gcloud` installed locally on your machine.
+This guide assumes you have a GitHub repo clone/fork of the upstream repo and the following installed locally on your machine:
+1. `gcloud` - [install](https://cloud.google.com/sdk/docs/install)
+2. `gh` - [install](https://github.com/cli/cli#installation)
+3. `mysql` client - `sudo apt install mysql-client-core-8.0`
 
 ## Create a Google Cloud project
 
-1. Create a Google Cloud Project and store it's name in an anv var
+1. Create a Google Cloud Project and store it's name in an env var
 2. `EXPORT GCLOUD_PROJECT=your-project` or `set GCLOUD_PROJECT your-project`
 3. Make sure the project has the following services enabled: `gcloud services enable compute.googleapis.com sqladmin.googleapis.com run.googleapis.com run.googleapis.com cloudtasks.googleapis.com storage.googleapis.com containerregistry.googleapis.com cloudscheduler.googleapis.com --project=$GCLOUD_PROJECT`
-
-## Create a MySQL database
-
-1. Create an SQL instance. Make sure to get your local machine's public IP for enabling public access to from your IP to the DB.
-```shell
-gcloud sql instances create prod-db \
-  --database-version=MYSQL_8_0 \
-  --tier=db-g1-small \
-  --region=europe-west4 \
-  --root-password=your-passw \
-  --assign-ip \
-  --storage-auto-increase \
-  --storage-size=20GB \
-  --authorized-networks=your-public-ip \
-  --maintenance-window-day=MON \
-  --maintenance-window-hour=2 \
-  --availability-type=zonal \
-  --backup \
-  --retained-backups-count=30 \
-  --storage-type=SSD \
-  --project=$GCLOUD_PROJECT
-```
-2. Create a database:
-```shell
-gcloud sql databases create prod-db \
---instance=prod-db \
---charset=utf8mb4 \
---collation=utf8mb4_unicode_ci \
---project=$GCLOUD_PROJECT
-```
-3. Create a user specifically for this database. You have to login to MySQL as the root user for this. You can do this via the commandline or a tool like MySQL workbench.
-```mysql
-CREATE USER 'vendure-prod'@'%' IDENTIFIED BY 'your-pass';
-```
-4. Grant the created user access to the database
-```mysql
-GRANT ALL PRIVILEGES ON `prod-db`.* TO 'vendure-prod'@'%';
-```
-5.  Repeat these steps if you'd also like a test environment.
-
-## Asset storage
-
-Create a buckt for Vendure's assets and make the bucket publicly readable
-
-1. `gcloud storage buckets create gs://prod-assets --project=$GCLOUD_PROJECT`
-2. `gcloud storage buckets add-iam-policy-binding gs://prod-assets --member=allUsers --role=roles/storage.objectViewer`
 
 ## Env vars
 Copy the .env.example file and fill in your values.
 
 ## Test locally
-`yarn build:admin`
-`yarn generate-migration:prod initial-startup`
-`yarn run-migration:prod`
-`yarn serve:prod`
+1. `yarn build:admin`
+2. `yarn generate-migration:prod initial-startup`
+3. `yarn run-migration:prod`
+4. `yarn serve:prod`
 
 You should be able to access `http://localhost:3000/admin`, `http://localhost:3000/admin-api` and `http://localhost:3000/shop-api`
 
@@ -81,51 +38,24 @@ Test asset upload:
 2. Start Vendure and upload an asset. It should upload to your specified bucket
 
 
-## Deployments
-
-Create Service accounts for deployments
-
-```shell
-gcloud iam service-accounts create devops-sa \
---description="Automated deploys to cloud run and container building" \
---display-name="Devops service account" \
---project=$GCLOUD_PROJECT
-```
-
-Grant roles
-```shell
-gcloud projects add-iam-policy-binding $GCLOUD_PROJECT \
-    --member="serviceAccount:devops-sa@$GCLOUD_PROJECT.iam.gserviceaccount.com" \
-    --role="roles/editor"
-```
-
-Create JSON key
-```shell
-gcloud iam service-accounts keys create key.json \
-    --iam-account=devops-sa@$GCLOUD_PROJECT.iam.gserviceaccount.com
-```
-Copy the contents of the `key.json` file and store it in a repository secret https://github.com/YOUR-repository/settings/secrets/actions
-
-Delete the key file!
-
-Copy the contents of your `.env` file, **without comments and empty lines**, into a repository secret named `ENV_PROD` (`ENV_TEST` for the test env).
-
 Go through the following files and replace any variables specific to your project: 
 * All files in `.github/workflows`
 * `deploy.sh`
 * `build-docker.sh`
 
-## Keep alive for performance
+## Deployments
 
-To prevent cold starts, you can call your Vendure instance every minute. This can be done with a Cloud Scheduler job:
-
-```shell
-gcloud scheduler jobs create http vendure-prod-keep-alive \
-    --location=europe-west1 \
-    --schedule="* 6-23 * * *" \
-    --uri=https://your-project.a.run.app/admin \
-    --project=$GCLOUD_PROJECT
 ```
+cd scripts && ./automation.sh
+```
+
+Still requires input:
+- GitHub auth - 2 choices - GitHub.com, No
+- After first DB_HOST spinup for IP
+- Deleting SQL root user
+
+ISSUES:
+- could be database user host name - change to %
 
 ## Google Cloud Console
 Some useful and important links to view your application health:

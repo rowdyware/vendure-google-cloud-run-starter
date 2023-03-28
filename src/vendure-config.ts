@@ -38,7 +38,7 @@ export const config: VendureConfig = {
     stockAllocationStrategy: new AllocateStockOnSettlementStrategy(),
   },
   apiOptions: {
-    port: (process.env.PORT as unknown as number) ?? 3000,
+    port: (process.env.PORT as unknown as number) ?? 3001,
     adminApiPath: 'admin-api',
     adminApiPlayground: !!runningLocal,
     adminApiDebug: false, // turn this off for production
@@ -73,9 +73,9 @@ export const config: VendureConfig = {
     host: process.env.DB_HOST,
     database: process.env.DB_NAME,
     migrations: [path.join(__dirname, '../migrations/*.ts')],
-    socketPath: runningLocal
-      ? undefined
-      : `/cloudsql/${process.env.SOCKET_CONNECTION_NAME}`,
+    // socketPath: runningLocal
+    //   ? undefined
+    //   : `/cloudsql/${process.env.SOCKET_CONNECTION_NAME}`,
   },
   taxOptions: {
   },
@@ -110,7 +110,7 @@ export const config: VendureConfig = {
     EmailPlugin.init({
       // Only for dev
       // devMode: true,
-      // outputPath: path.join(__dirname, '../static/email/test-emails'),
+      // outputPath: path.join(__dirname, '../../static/email/test-emails'),
       // route: 'mailbox',
       // Live settings
       transport: {
@@ -126,7 +126,7 @@ export const config: VendureConfig = {
         },
       },
       handlers: defaultEmailHandlers,
-      templatePath: path.join(__dirname, '../static/email/templates'),
+      templatePath: path.join(__dirname, '../../static/email/templates'),
       globalTemplateVars: {
         // The following variables will change depending on your storefront implementation.
         // Here we are assuming a storefront running at http://localhost:8080.
@@ -147,7 +147,7 @@ export const config: VendureConfig = {
         hideVersion: false,
       },
       app: {
-        path: path.join(__dirname, '../__admin-ui/dist'),
+        path: path.join(__dirname, '../../__admin-ui/src'),
       }
     }),
   ],

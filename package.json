@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "prepare": "husky install",
-    "start": "node ./dist/index",
-    "serve": "nodemon -e ts --watch './src/' --exec \"yarn build && node ./dist/index\"",
+    "start": "node ./dist/src/index",
+    "serve": "nodemon -e ts --watch './src/' --exec \"yarn build && node ./dist/src/index\"",
     "serve:prod": "export ENV_FILE=.env && yarn serve",
     "serve:test": "export ENV_FILE=.env.test && yarn serve",
     "build": "rimraf dist && yarn tsc",
