@@ -147,7 +147,7 @@ export const config: VendureConfig = {
         hideVersion: false,
       },
       app: {
-        path: path.join(__dirname, '../../__admin-ui/src'),
+        path: path.join(__dirname, '../../__admin-ui/dist'),
       }
     }),
   ],
