@@ -7,6 +7,7 @@ on:
 
 env:
   GCLOUD_PROJECT: rowdyware-services
+  SERVICE_NAME: marketplace
 
 jobs:
 
@@ -31,8 +32,8 @@ jobs:
     strategy:
       matrix:
         instances: [
-          { name: "rowdyware-services-api", db: "prod-db", secret: "ENV_PROD", memory: "2G"},
-          { name: "rowdyware-services-worker", db: "prod-db", secret: "ENV_PROD", memory: "2G"},
+          { name: "marketplace-api", db: "marketplace-db", secret: "ENV_PROD", memory: "2G"},
+          { name: "marketplace-worker", db: "marketplace-db", secret: "ENV_PROD", memory: "2G"},
         ]
     runs-on: ubuntu-latest
     steps:
@@ -56,8 +57,8 @@ jobs:
     strategy:
       matrix:
         instances: [
-          { name: "rowdyware-services-test-api", db: "test-db", secret: "ENV_TEST", memory: "1G"},
-          { name: "rowdyware-services-test-worker", db: "test-db", secret: "ENV_TEST", memory: "1G"},
+          { name: "marketplace-test-api", db: "marketplace-test-db", secret: "ENV_TEST", memory: "1G"},
+          { name: "marketplace-test-worker", db: "marketplace-test-db", secret: "ENV_TEST", memory: "1G"},
         ]
     runs-on: ubuntu-latest
     steps:

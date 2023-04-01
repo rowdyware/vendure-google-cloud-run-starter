@@ -16,18 +16,25 @@ else
     echo "$FILE exists"
 fi
 
-PS3='Choose an option by entering a #: '
-choices=("Test Locally - Setup" "Test Locally - Update" "Deployment - Setup" "Deployment - Update" "Deployment - Update Secrets" "Deployment - Update with Admin UI Recompile" "Cleanup" "Nuke Everything" "Exit")
+PS3='Choose an option by entering a # and [Enter]: '
+
+choices=("Test Locally - Setup" "Test Locally - Update" "Deployment - Initial Run" "Deployment - Update" "Deployment - Update Secrets" "Deployment - Update with Admin UI Recompile" "Cleanup" "Nuke Everything" "Exit")
+
 select automation in "${choices[@]}"; do
     case $automation in
         "Test Locally - Setup")
             cd ..
 
+            echo "BUILDING APP"
             yarn
             yarn build:admin
             yarn generate-migration:prod initial-startup
             yarn run-migration:prod
+
+            echo "AUTHENTICATING GCLOUD"
             gcloud auth application-default login
+            
+            echo "STARTING SERVER LOCALY"
             yarn serve:prod
 
             break
@@ -39,7 +46,7 @@ select automation in "${choices[@]}"; do
 
             break
             ;;
-        "Deployment - Setup")
+        "Deployment - Initial Run")
             echo "UPDATING GCLOUD COMPONENTS"
             gcloud components update
 
@@ -55,6 +62,8 @@ select automation in "${choices[@]}"; do
             echo "BUILDING ADMIN UI"
             cd ..
             yarn build:admin
+            yarn generate-migration:prod initial-startup
+            yarn run-migration:prod
             cd scripts
 
             echo "RUNNING DOCKER IMAGE BUILD AND PUSH SCRIPT"
@@ -63,17 +72,32 @@ select automation in "${choices[@]}"; do
             echo "RUNNING DEPLOYMENT TO CLOUD RUN SCRIPT"
             source ./deploy.sh
 
-            echo "INSTRUCTIONS: open .env and insert your WORKER_HOST URL retrieved from the Cloud Run dashboard after the first successful deploy"
+            echo "INSTRUCTIONS: open .env and insert your WORKER_HOST URL listed in Service URL above:"
             echo "INSTRUCTIONS: save .env before continuing"
 
             # PAUSE PROMPT
             read -p "PRESS ANY KEY TO CONTINUE... " -n1 -s
 
+            # PARSE ENV
+            source ./parse-env.sh
+
+            # UPDATE WORKER_HOST SECRET
+            echo "Updating secret: ${SERVICE_NAME}-worker-host"
+            printf "$WORKER_HOST" | gcloud secrets versions add ${SERVICE_NAME}-worker-host \
+                --data-file=- \
+                --project=$GCLOUD_PROJECT
+
             echo "RERUNNING DEPLOYMENT TO CLOUD RUN SCRIPT"
             source ./deploy.sh
 
+            echo "RUNNING CUSTOM DOMAIN SCRIPT"
+            source ./custom-domain.sh
+
             echo "RUNNING KEEP ALIVE PERFORMANCE SCRIPT"
             source ./keep-alive.sh
+
+            echo "RUNNING CLEANUP SCRIPT"
+            source ./cleanup.sh
 
             break
             ;;

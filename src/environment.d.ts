@@ -7,10 +7,13 @@ declare global {
         interface ProcessEnv {
             APP_ENV: string;
             APP_PORT: string;
+            DOMAIN_URL: string;
             LOCAL_IP: string;
+            GITHUB_PAT: string;
             GCLOUD_PROJECT: string;
             GCLOUD_REGION: string;
             SERVICE_NAME: string;
+            WORKER_SERVICE_NAME: string;
             SERVICE_ACCOUNT: string;
             BUCKET: string;
             SUPERADMIN_USERNAME: string;

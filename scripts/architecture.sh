@@ -38,11 +38,8 @@ gcloud iam service-accounts create $SERVICE_ACCOUNT \
     --display-name="Devops service account" \
     --project=$GCLOUD_PROJECT
 
-echo "Granting service account roles"
-gcloud projects add-iam-policy-binding $GCLOUD_PROJECT \
-    --member="serviceAccount:$SERVICE_ACCOUNT@$GCLOUD_PROJECT.iam.gserviceaccount.com" \
-    --role="roles/editor" \
-    --role="roles/secretmanager.secretAccessor"
+echo "RUNNING SERVICE ACCOUNT IAM ROLES SCRIPT"
+source ./iam.sh
 
 echo "Creating service account JSON key"
 gcloud iam service-accounts keys create key.json \

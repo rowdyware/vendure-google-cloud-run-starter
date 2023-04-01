@@ -11,6 +11,7 @@ source ./parse-env.sh
 
 cd ..
 
+# DOCKER
 echo "Building Docker image"
 docker build . -t gcr.io/$GCLOUD_PROJECT/vendure
 

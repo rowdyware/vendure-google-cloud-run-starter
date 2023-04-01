@@ -38,7 +38,7 @@ export const config: VendureConfig = {
     stockAllocationStrategy: new AllocateStockOnSettlementStrategy(),
   },
   apiOptions: {
-    port: (process.env.PORT as unknown as number) ?? 3001,
+    port: (process.env.PORT as unknown as number) ?? 3000,
     adminApiPath: 'admin-api',
     adminApiPlayground: !!runningLocal,
     adminApiDebug: false, // turn this off for production
@@ -142,9 +142,9 @@ export const config: VendureConfig = {
       port: 3002,
       adminUiConfig: {
         loginImageUrl: 'https://source.unsplash.com/NOWf9wVANYQ' ,
-        brand: 'Pinelab Vendure',
-        hideVendureBranding: false,
-        hideVersion: false,
+        brand: 'Rowdyware',
+        hideVendureBranding: true,
+        hideVersion: true,
       },
       app: {
         path: path.join(__dirname, '../../__admin-ui/dist'),

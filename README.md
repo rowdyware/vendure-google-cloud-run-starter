@@ -12,14 +12,14 @@
 ## Prerequisites
 
 This guide assumes you have a GitHub repo clone/fork of the upstream repo and the following installed locally on your machine:
-1. bash 
-2. yarn
-3. `gcloud` - [install](https://cloud.google.com/sdk/docs/install)
-4. `gh` - [install](https://github.com/cli/cli#installation)
-
-## Create a Google Cloud project
-
-1. Create a Google Cloud Project and store it's name in an env var `GCLOUD_PROJECT`
+1. bash
+2. nvm 
+3. yarn
+4. `gcloud` - [install](https://cloud.google.com/sdk/docs/install)
+5. `gcloud beta`
+6. `gh` - [install](https://github.com/cli/cli#installation)
+7. A Google Cloud Project - store the ProjectId in an env var `GCLOUD_PROJECT`
+8. DNS records for your custom domain - `CNAME @ ghs.googlehosted.com`
 
 ## Env vars
 Copy the .env.example file and fill in your values.
@@ -32,14 +32,10 @@ Go through the following files and replace `your-project` with env vars specific
 ## Deployments
 
 ```
-cd scripts && ./automation.sh
+nvm use 16
+cd scripts
+./automation.sh
 ```
-
-Requires input:
-- script selection
-- After first DB_HOST spinup for IP
-- Deleting SQL root user
-- After first deploy for WORK_HOST URL
 
 ## Google Cloud Console
 Some useful and important links to view your application health:
@@ -54,3 +50,6 @@ Some useful and important links to view your application health:
 When you add plugins that have custom UI, you need to add the plugin to `src/compile-admin-ui.ts` and run `yarn build:admin`. We commit the compiled files in `__admin-ui/dist` to git, to prevent recompilation on every deploy, because it can take quite long and is only necessary when UI changes have been introduces in `compile-admin-ui.ts`.
 
 If you prefer to build the admin UI on every deploy, take a look at https://www.vendure.io/docs/plugins/extending-the-admin-ui/#compiling-as-a-deployment-step 
+
+## Credit
+Forked from [pinelab-studio/vendure-google-cloud-run-starter](https://github.com/Pinelab-studio/vendure-google-cloud-run-starter)

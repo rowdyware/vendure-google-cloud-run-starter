@@ -21,7 +21,8 @@ gcloud sql instances create $DB_NAME \
     --authorized-networks=$LOCAL_IP \
     --maintenance-window-day=MON \
     --maintenance-window-hour=2 \
-    --availability-type=zonal \
+    --availability-type=regional \
+    --enable-bin-log \
     --backup \
     --retained-backups-count=30 \
     --storage-type=SSD \
@@ -43,7 +44,12 @@ read -p "PRESS ANY KEY TO CONTINUE... " -n1 -s
 # PARSE ENV
 source ./parse-env.sh
 
-# host=cloudsqlproxy~$DB_HOST
+# UPDATE DB_HOST SECRET
+echo "Updating secret: ${SERVICE_NAME}-db-host"
+printf "$DB_HOST" | gcloud secrets versions add ${SERVICE_NAME}-db-host \
+    --data-file=- \
+    --project=$GCLOUD_PROJECT
+
 echo "Creating user for Cloud SQL database"
 gcloud sql users create $DB_USER \
     --instance=$DB_NAME, -i $DB_NAME \
@@ -52,7 +58,7 @@ gcloud sql users create $DB_USER \
     --project=$GCLOUD_PROJECT
 
 echo "Deleting root user for Cloud SQL database"
-gcloud sql users delete root \
+gcloud sql users delete root --quiet \
     --instance=$DB_NAME, -i $DB_NAME \
-    --host=cloudsqlproxy~$DB_HOST \
+    --host=% \
     --project=$GCLOUD_PROJECT
