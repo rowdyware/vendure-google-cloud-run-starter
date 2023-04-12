@@ -11,7 +11,9 @@ source ./parse-env.sh
 
 # GCLOUD API
 echo "Enabling GCloud services"
-gcloud services enable compute.googleapis.com \
+gcloud services enable logging.googleapis.com \
+    secretmanager.googleapis.com \
+    compute.googleapis.com \
     sqladmin.googleapis.com \
     run.googleapis.com \
     cloudtasks.googleapis.com \

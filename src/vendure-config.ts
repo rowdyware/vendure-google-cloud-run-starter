@@ -59,6 +59,7 @@ export const config: VendureConfig = {
       password: process.env.SUPERADMIN_PASSWORD,
     },
     tokenMethod: 'bearer',
+    requireVerification: false, // disable register by email verification
   },
   assetOptions: {
     permittedFileTypes: ['image/*', 'video/*', 'audio/*', '.pdf', '.epub'],

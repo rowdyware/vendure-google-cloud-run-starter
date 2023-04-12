@@ -29,7 +29,7 @@ This project uses `your-project` as example name, so make sure to ctrl+f all fil
 Go through the following files and replace `your-project` with env vars specific to your project: 
 * All files in `.github/workflows`
 
-## Deployments
+## Dev, Deployments, Cleanup
 
 ```
 nvm use 16

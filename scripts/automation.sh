@@ -47,8 +47,8 @@ select automation in "${choices[@]}"; do
             break
             ;;
         "Deployment - Initial Run")
-            echo "UPDATING GCLOUD COMPONENTS"
-            gcloud components update
+            echo "RUNNING GCLOUD CONFIG SCRIPT"
+            source ./gcloud.sh
 
             echo "RUNNING CREATE SECRETS SCRIPT"
             source ./secrets-create.sh

@@ -30,7 +30,7 @@ gcloud iam service-accounts delete $SERVICE_ACCOUNT@$GCLOUD_PROJECT.iam.gservice
 
 # GITHUB ACTIONS
 echo "Removing Repository secret for Service Account"
-gh secret delete SA_KEYy
+gh secret delete SA_KEY
 
 # SECRETS
 echo "RUNNING SECRETS DELETION SCRIPT"
